@@ -123,6 +123,7 @@
                     ],
                 },
             };
+            document.getElementById("jitsi").innerHTML = '';
             const api = new JitsiMeetExternalAPI(domain, options);
             console.log(api);
             api.addListener('tileViewChanged', ({ enabled }) => {
