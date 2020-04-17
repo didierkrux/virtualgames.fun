@@ -11,43 +11,63 @@
     <style>
         body {
             margin: 0;
+            background: #eaeaea;
             overflow: hidden;
         }
 
         input {
             outline: 0;
             border: none;
+            height: 100%;
+            padding: 0 5px;
         }
 
         input[type=button] {
             cursor: pointer;
-            background: crimson;
+            background: #e84149;
+            font-size: 30px;
+            color: white;
         }
 
         input[type=text] {
-            width: -webkit-fill-available;
+            width: 500px;
+            font-size: 30px;
         }
 
         iframe {
             width: 100%;
-            height: 50vh !important;
+            height: 100%;
             border: none;
         }
 
-        #submit {
+        #game {
             position: absolute;
-            right: 0;
+            background: #eaeaea;
+            width: calc(100vw - 375px);
+            height: calc(100vh - 50px);
+            top: 50px;
+        }
+
+        #jitsi {
+            position: absolute;
             top: 0;
-            zoom: 3;
+            right: 0;
+            height: 100vh;
+            width: 100%;
+        }
+
+        #toolbar {
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: flex;
+            height: 50px;
+            background: #eaeaea;
+            width: calc(100vw - 375px);
         }
 
         #share {
-            position: absolute;
-            right: 7%;
-            top: 17%;
-            zoom: 5;
             text-align: center;
-            background: crimson;
         }
     </style>
 </head>
@@ -64,15 +84,19 @@
                 height: '100%',
                 parentNode: document.querySelector('#jitsi'),
                 interfaceConfigOverwrite: {
-                    // DEFAULT_BACKGROUND: '',
-                    // filmStripOnly: true,
+                    // TODO: custom Jitsi background
+                    DEFAULT_BACKGROUND: '#eaeaea',
+                    filmStripOnly: true,
                     // VERTICAL_FILMSTRIP: false,
+                    // TODO: calculate dynamic size for 5 players
+                    FILM_STRIP_MAX_HEIGHT: 350,
+                    REMOTE_THUMBNAIL_RATIO: 16 / 9,
                     SHOW_JITSI_WATERMARK: false,
                     SHOW_WATERMARK_FOR_GUESTS: false,
                     TOOLBAR_BUTTONS: [
                         'microphone',
-                        'camera'
-                        // 'filmstrip',
+                        'camera',
+                        'filmstrip',
                     ],
                     SHOW_CHROME_EXTENSION_BANNER: false,
                     MOBILE_APP_PROMO: false,
@@ -84,7 +108,7 @@
             };
             api = new JitsiMeetExternalAPI(domain, options);
             console.log(api);
-            api.addListener('tileViewChanged', ({enabled}) => {
+            api.addListener('tileViewChanged', ({ enabled }) => {
                 if (!enabled) {
                     api.executeCommand('toggleTileView');
                 }
@@ -123,6 +147,7 @@
                 setTimeout(function () { websocket.close(); }, 20000);
             }
             // TODO: disconnect ws after 4 people joined (need 3 minimum)
+            // TODO: listen to ws to detect new party?
         }
 
         function wsSend(message) {
@@ -140,26 +165,28 @@
             copyText.select();
             copyText.setSelectionRange(0, 99999); /*For mobile devices*/
             document.execCommand("copy");
-            alert("Link has been copied, share now with your friends");
+            // alert("Link has been copied, share now with your friends");
             // TODO: only hide when the room is full
-            document.getElementById("share").innerHTML = '';
+            // document.getElementById("share").innerHTML = '';
         }
 
     </script>
-    <div id="game">
-    </div>
     <div id="jitsi">
     </div>
-    <div id="share">
+    <div id="game">
     </div>
-    <script>
-        const params = new URLSearchParams(document.location.search.substring(1));
-        if (params.get('join')) {
-            joinGame(params.get('join'));
-        } else {
-            document.write('<input id="submit" type="button" onclick="createSession();" value="New game!" />');
-        }
-    </script>
+    <div id="toolbar">
+        <input id="submit" type="button" onclick="createSession();" value="New game!" />
+        <div id="share">
+            <script>
+                const params = new URLSearchParams(document.location.search.substring(1));
+                if (params.get('join')) {
+                    joinGame(params.get('join'));
+                    document.write('<input type="text" id="link" value="' + document.location.href.replace('https://', '') + '" /><input type="button" value="copy link" onclick="javascript: copyLink();" />');
+                }
+            </script>
+        </div>
+    </div>
 </body>
 </body>
 
