@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Limite Limite - virtualgames.fun</title>
+    <script src='https://meet.jit.si/external_api.js'></script>
+    <!-- TODO: add favicon -->
+    <!-- TODO: add analytics tracking -->
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        input {
+            outline: 0;
+            border: none;
+        }
+
+        input[type=button] {
+            cursor: pointer;
+            background: crimson;
+        }
+
+        input[type=text] {
+            width: -webkit-fill-available;
+        }
+
+        iframe {
+            width: 100%;
+            height: 50vh !important;
+            border: none;
+        }
+
+        #submit {
+            position: absolute;
+            right: 0;
+            top: 0;
+            zoom: 3;
+        }
+
+        #share {
+            position: absolute;
+            right: 7%;
+            top: 17%;
+            zoom: 5;
+            text-align: center;
+            background: crimson;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        var api = null;
+
+        function createJitsi(roomName) {
+            const domain = 'meet.jit.si';
+            const options = {
+                roomName,
+                width: '100%',
+                height: '100%',
+                parentNode: document.querySelector('#jitsi'),
+                interfaceConfigOverwrite: {
+                    // DEFAULT_BACKGROUND: '',
+                    // filmStripOnly: true,
+                    // VERTICAL_FILMSTRIP: false,
+                    SHOW_JITSI_WATERMARK: false,
+                    SHOW_WATERMARK_FOR_GUESTS: false,
+                    TOOLBAR_BUTTONS: [
+                        'microphone',
+                        'camera'
+                        // 'filmstrip',
+                    ],
+                    SHOW_CHROME_EXTENSION_BANNER: false,
+                    MOBILE_APP_PROMO: false,
+                    DISABLE_RINGING: true,
+                    OPTIMAL_BROWSERS: [
+                        'chrome', 'chromium', 'edge', 'electron', 'firefox', 'nwjs', 'opera', 'safari',
+                    ],
+                },
+            };
+            api = new JitsiMeetExternalAPI(domain, options);
+            console.log(api);
+            api.addListener('tileViewChanged', ({enabled}) => {
+                if (!enabled) {
+                    api.executeCommand('toggleTileView');
+                }
+            });
+            api.addListener('videoConferenceJoined', () => {
+                api.executeCommand('subject', 'Virtual Limite Limite');
+            });
+        }
+        const wsUri = "wss://limitelimiteenligne.com/socket.io/?EIO=3&transport=websocket";
+
+        function createSession() {
+            console.log('create ws');
+            websocket = new WebSocket(wsUri);
+            websocket.onopen = function (evt) { onOpen(evt) };
+            websocket.onclose = function (evt) { console.log("ws disconnected") };
+            websocket.onmessage = function (evt) { onMessage(evt) };
+            websocket.onerror = function (evt) { console.log(evt.data) };
+        }
+
+        function onOpen(evt) {
+            console.log("CONNECTED");
+            wsSend('42["register",{"username":"host"}]');
+            wsSend('420["createPrivateGame"]');
+        }
+
+        function onMessage(evt) {
+            console.log('ws message', evt.data);
+            // response example: 430[{"game":{"id":"ydf8jg","type":"private","players":[{"username":"host","admin":true,"score":0,"color":5}],"status":"waiting","chatMessages":[],"cardQuestions":[],"cardReponses":[],"timer":0,"colorIDs":[1,2,3,4]}}]
+            if (evt.data.substr(0, 3) === '430') {
+                const data = JSON.parse(evt.data.substr(3));
+                const room = data[0].game.id;
+                console.log('room', room);
+                const share_link = document.location.hostname + '/?join=' + room;
+                document.getElementById("share").innerHTML = '<input type="text" id="link" value="' + share_link + '" /><input type="button" value="copy link" onclick="javascript: copyLink();" />';
+                joinGame(room);
+                setTimeout(function () { websocket.close(); }, 20000);
+            }
+            // TODO: disconnect ws after 4 people joined (need 3 minimum)
+        }
+
+        function wsSend(message) {
+            console.log("ws sent", message);
+            websocket.send(message);
+        }
+
+        function joinGame(room) {
+            document.getElementById("game").innerHTML = '<iframe id="limite" src="https://limitelimiteenligne.com/#/game/' + room + '">';
+            createJitsi('limite-' + room);
+        }
+
+        function copyLink() {
+            const copyText = document.getElementById("link");
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+            document.execCommand("copy");
+            alert("Link has been copied, share now with your friends");
+            // TODO: only hide when the room is full
+            document.getElementById("share").innerHTML = '';
+        }
+
+    </script>
+    <div id="game">
+    </div>
+    <div id="jitsi">
+    </div>
+    <div id="share">
+    </div>
+    <script>
+        const params = new URLSearchParams(document.location.search.substring(1));
+        if (params.get('join')) {
+            joinGame(params.get('join'));
+        } else {
+            document.write('<input id="submit" type="button" onclick="createSession();" value="New game!" />');
+        }
+    </script>
+</body>
+</body>
+
+</html>
