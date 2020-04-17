@@ -166,6 +166,7 @@
                 const room = data[0].game.id;
                 console.log('room', room);
                 const share_link = document.location.hostname + '/?join=' + room;
+                window.history.replaceState({}, 'join', '/?join=' + room);
                 document.getElementById("share").innerHTML = '<input type="text" id="link" value="' + share_link + '" /><input type="button" value="copy link" onclick="javascript: copyLink();" />';
                 joinGame(room);
                 setTimeout(function () { websocket.close(); }, 20000);
@@ -200,7 +201,7 @@
     <div id="game">
     </div>
     <div id="toolbar">
-        <input id="submit" type="button" onclick="createSession();" value="New game!" />
+        <input id="submit" type="button" onclick="javascript: createSession();" value="New game!" />
         <div id="share">
             <script>
                 const params = new URLSearchParams(document.location.search.substring(1));
