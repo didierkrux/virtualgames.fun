@@ -1,0 +1,43 @@
+/* CSS to inject to jitsi iframe to generate preview image with fake webcams */
+
+#localVideoWrapper {
+    background: url(https://virtualgames.fun/assets/images/webcam/webcam1.jpg);
+    border-radius: 4px;
+    background-size: cover;
+    filter: brightness(90%) sepia(10%) saturate(90%);
+}
+
+video, .filmstrip__videos .videocontainer>video {
+    display: none;
+}
+
+#filmstripRemoteVideos .videocontainer__background {
+    border-radius: 4px;
+    filter: brightness(90%) sepia(10%) saturate(90%);
+}
+
+#filmstripRemoteVideos span:nth-child(1) .videocontainer__background {
+    background: url(https://virtualgames.fun/assets/images/webcam/webcam2.jpg);
+    background-size: cover;
+}
+
+#filmstripRemoteVideos span:nth-child(2) .videocontainer__background {
+    background: url(https://virtualgames.fun/assets/images/webcam/webcam3.jpg);
+    background-size: cover;
+    filter: none;
+}
+
+#filmstripRemoteVideos span:nth-child(3) .videocontainer__background {
+    background: url(https://virtualgames.fun/assets/images/webcam/webcam4.jpg);
+    background-size: cover;
+    filter: none;
+}
+
+#filmstripRemoteVideos span:nth-child(4) .videocontainer__background {
+    background: url(https://virtualgames.fun/assets/images/webcam/webcam5.jpg);
+    background-size: cover;
+}
+
+.videocontainer__toptoolbar, .avatar-container {
+    display: none;
+}
