@@ -61,7 +61,6 @@
         body {
             margin: 0;
             background: #eaeaea;
-            overflow: hidden;
         }
 
         input {
@@ -126,10 +125,12 @@
         /* Disable website for small screen size (< 1280px) */
         /* TODO: do full mobile detection in JS */
         #mobile {
+            position: absolute;
             display: none;
             width: 100vw;
+            zoom: 96%;
+            padding: 2%;
             min-height: 100vh;
-            position: absolute;
             z-index: 2;
             background: #eaeaea;
         }
@@ -142,6 +143,7 @@
         #mobile div {
             width: 100vw;
             position: relative;
+            margin-top: 2%;
         }
 
         #mobile img.device-mockup {
@@ -157,7 +159,11 @@
             border-radius: 5px;
         }
 
-        @media (max-width: 1279px) {
+        .desktop-only {
+            display: none;
+        }
+
+        @media screen and (max-width: 1279px) {
 
             #toolbar,
             #game,
@@ -167,6 +173,12 @@
 
             #mobile {
                 display: block;
+            }
+
+            @media screen and (min-width: 800px) {
+                .desktop-only {
+                    display: block;
+                }
             }
         }
     </style>
@@ -277,6 +289,10 @@
         </h2>
         <h2>
             💻 Taille d'écran minimum requise : 1280 pixels de large
+        </h2>
+        <h2 class="desktop-only">
+            🛠 Astuce : utiliser la fonction zoom de votre navigateur (Ctrl et - ou ⌘ et -) si la resolution de votre
+            écran est trop faible.
         </h2>
         <div>
             <img class="device-mockup"
