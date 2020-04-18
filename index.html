@@ -95,6 +95,10 @@
             width: calc(100vw - 375px);
             height: calc(100vh - 50px);
             top: 50px;
+            /*
+            TODO: add dirty zoom HACK for small desktops screens for game iframe
+            transform: scale(0.8, 0.8) translate(-13%, -12%);
+            */
         }
 
         #jitsi {
@@ -120,13 +124,14 @@
         }
 
         /* Disable website for small screen size (< 1280px) */
-        /* TODO: do mobile detection in JS */
-        /* TODO: add zoom HACK for small desktops screens */
+        /* TODO: do full mobile detection in JS */
         #mobile {
             display: none;
             width: 100vw;
+            min-height: 100vh;
             position: absolute;
             z-index: 2;
+            background: #eaeaea;
         }
 
         #mobile h2 {
@@ -288,7 +293,7 @@
         <div id="share">
             <script>
                 const params = new URLSearchParams(document.location.search.substring(1));
-                if (params.get('join')) {
+                if (params.get('join') && document.body.clientWidth >= 1280) {
                     joinGame(params.get('join'));
                     document.write('<input type="text" id="link" value="' + document.location.href.replace('https://', '') + '" /><input type="button" value="Copier le lien" onclick="javascript: copyLink();" />');
                 }
