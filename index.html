@@ -118,11 +118,56 @@
         #share {
             text-align: center;
         }
+
+        /* Disable website for small screen size (< 1280px) */
+        /* TODO: do mobile detection in JS */
+        /* TODO: add zoom HACK for small desktops screens */
+        #mobile {
+            display: none;
+            width: 100vw;
+            position: absolute;
+            z-index: 2;
+        }
+
+        #mobile h2 {
+            font-family: sans-serif;
+            text-align: center;
+        }
+
+        #mobile div {
+            width: 100vw;
+            position: relative;
+        }
+
+        #mobile img.device-mockup {
+            position: absolute;
+            width: 100%;
+        }
+
+        #mobile img.preview {
+            position: absolute;
+            width: 78%;
+            left: 11%;
+            margin-top: 7%;
+            border-radius: 5px;
+        }
+
+        @media (max-width: 1279px) {
+
+            #toolbar,
+            #game,
+            #jisti {
+                display: none;
+            }
+
+            #mobile {
+                display: block;
+            }
+        }
     </style>
 </head>
 
 <body>
-    <!-- TODO: display non-compatible message for mobile -->
     <script>
         function createJitsi(roomName) {
             const domain = 'meet.jit.si';
@@ -221,6 +266,19 @@
         }
 
     </script>
+    <div id="mobile">
+        <h2>
+            🚫📱 Site non compatible pour mobile ou petits écrans.
+        </h2>
+        <h2>
+            💻 Taille d'écran minimum requise : 1280 pixels de large
+        </h2>
+        <div>
+            <img class="device-mockup"
+                src="https://cdn.jsdelivr.net/npm/html5-device-mockups@3.2.1/device-mockups/MacbookPro/portrait_black.png" />
+            <img class="preview" src="/assets/images/preview.jpg" />
+        </div>
+    </div>
     <div id="jitsi">
     </div>
     <div id="game">
