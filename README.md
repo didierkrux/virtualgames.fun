@@ -1,2 +1,3 @@
 # virtualgames.fun
-Virtual version of the game Limite Limite (French adaption of Cards Against Humanity)
+
+🎮💻 Play online games with your friends for FREE inside a private video conference room
