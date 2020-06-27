@@ -35,6 +35,9 @@ const Control = styled.div`
     width: 38px;
     cursor: pointer;
   }
+  svg {
+    margin-bottom: 38px;
+  }
 `;
 
 const Room = styled.span`
