@@ -61,8 +61,8 @@ const Game = ({ room }: GameProps): React.ReactElement => {
   useEffect((): void => {
     if (!jitsiApi && jitsiRef) {
       console.log('DKD:init');
-      const domain = '8x8.vc';
-      // const domain = 'jitsi.toasty.ai';
+      // const domain = '8x8.vc';
+      const domain = 'jitsi.toasty.ai';
       const options = {
         roomName: 'virtualgames.fun-' + room,
         width: '100%',
@@ -168,14 +168,19 @@ const Game = ({ room }: GameProps): React.ReactElement => {
       link: 'https://gartic.io/create',
     },
     {
+      label: 'Limite Limite - French version of Cards Against Humanity',
+      img: '/assets/games/limitelimite.png',
+      link: 'https://limitelimiteenligne.com/',
+    },
+    {
       label: 'Minecraft classic',
       img: '/assets/games/minecraft.jpg',
       link: 'https://classic.minecraft.net/',
     },
     {
-      label: 'Limite Limite - French version of CAH',
-      img: '/assets/games/limitelimite.png',
-      link: 'https://limitelimiteenligne.com/',
+      label: 'Counter-Strike 1.6',
+      img: '/assets/games/counterstrike.png',
+      link: 'https://cs-online.club/en/servers',
     },
   ];
 
