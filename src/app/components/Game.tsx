@@ -13,7 +13,7 @@ const Jitsi = styled.div`
 const GameDiv = styled.div`
   position: absolute;
   background: #eaeaea;
-  width: calc(100vw - 375px);
+  width: calc(100vw - 265px);
   height: 100vh;
   top: 0;
   iframe {
@@ -44,10 +44,15 @@ const Room = styled.span`
   position: absolute;
   top: 0;
   right: 0;
-  width: 375px;
+  width: 215px;
   text-align: center;
   font-size: 15px;
   color: white;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  margin-right: 50px;
+  padding-left: 10px;
 `;
 
 interface GameProps {
@@ -65,12 +70,27 @@ const Game = ({ room }: GameProps): React.ReactElement => {
     if (!jitsiApi && jitsiRef) {
       console.log('DKD:init');
       // const domain = '8x8.vc';
+      // const domain = 'meet.jit.si';
       const domain = 'jitsi.toasty.ai';
       const options = {
         roomName: 'virtualgames.fun-' + room,
         width: '100%',
         height: '100%',
         parentNode: jitsiRef.current,
+        configOverwrite: {
+          prejoinPageEnabled: false,
+          resolution: 240,
+          constraints: {
+              video: {
+                  aspectRatio: 16 / 9,
+                  height: {
+                      ideal: 240,
+                      max: 240,
+                      min: 120
+                  }
+              }
+          },
+        },
         interfaceConfigOverwrite: {
           // TODO: custom Jitsi background
           // DEFAULT_BACKGROUND: '#eaeaea',
@@ -83,8 +103,8 @@ const Game = ({ room }: GameProps): React.ReactElement => {
           // DISABLE_VIDEO_BACKGROUND: false,
           filmStripOnly: true,
           VERTICAL_FILMSTRIP: true,
-          // TODO: calculate dynamic size for 5 players
-          FILM_STRIP_MAX_HEIGHT: 350,
+          // TODO: calculate dynamic size for 6 players
+          FILM_STRIP_MAX_HEIGHT: 240,
           REMOTE_THUMBNAIL_RATIO: 16 / 9,
           SHOW_JITSI_WATERMARK: false,
           SHOW_WATERMARK_FOR_GUESTS: false,
