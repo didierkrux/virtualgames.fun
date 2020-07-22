@@ -81,14 +81,14 @@ const Game = ({ room }: GameProps): React.ReactElement => {
           prejoinPageEnabled: false,
           resolution: 240,
           constraints: {
-              video: {
-                  aspectRatio: 16 / 9,
-                  height: {
-                      ideal: 240,
-                      max: 240,
-                      min: 120
-                  }
-              }
+            video: {
+              aspectRatio: 16 / 9,
+              height: {
+                ideal: 240,
+                max: 240,
+                min: 120,
+              },
+            },
           },
         },
         interfaceConfigOverwrite: {
