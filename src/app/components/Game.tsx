@@ -204,16 +204,17 @@ const Game = ({ room }: GameProps): React.ReactElement => {
       link: 'https://limitelimiteenligne.com/',
     },
     // BUG: join link is broken ...
-    {
-      label: 'Minecraft classic',
-      img: '/assets/games/minecraft.jpg',
-      link: 'https://classic.minecraft.net/',
-    },
-    {
-      label: 'Counter-Strike 1.6',
-      img: '/assets/games/counterstrike.png',
-      link: 'https://cs-online.club/en/servers',
-    },
+    // {
+    //   label: 'Minecraft classic',
+    //   img: '/assets/games/minecraft.jpg',
+    //   link: 'https://classic.minecraft.net/',
+    // },
+    // BUG: game is redirecting too many times
+    // {
+    //   label: 'Counter-Strike 1.6',
+    //   img: '/assets/games/counterstrike.png',
+    //   link: 'https://cs-online.club/en/servers',
+    // },
   ];
 
   return (
