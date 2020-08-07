@@ -112,6 +112,7 @@ const Game = ({ room }: GameProps): React.ReactElement => {
           SHOW_CHROME_EXTENSION_BANNER: false,
           MOBILE_APP_PROMO: false,
           DISABLE_RINGING: true,
+          VIDEO_QUALITY_LABEL_DISABLED: true,
           OPTIMAL_BROWSERS: [
             'chrome',
             'chromium',
