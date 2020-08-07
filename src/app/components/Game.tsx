@@ -194,7 +194,7 @@ const Game = ({ room }: GameProps): React.ReactElement => {
     },
     // BUG: not compatible with Chrome ATM ...
     {
-      label: 'Uno - card game (doesn\'t work on Chrome)',
+      label: "Uno - card game (doesn't work on Chrome)",
       img: '/assets/games/uno.png',
       link: 'https://play.unofreak.com/create',
     },
