@@ -192,11 +192,18 @@ const Game = ({ room }: GameProps): React.ReactElement => {
       img: '/assets/games/gartic.io.png',
       link: 'https://gartic.io/create',
     },
+    // BUG: not compatible with Chrome ATM ...
+    {
+      label: 'Uno - card game',
+      img: '/assets/games/uno.png',
+      link: 'https://play.unofreak.com/create',
+    },
     {
       label: 'Limite Limite - French version of Cards Against Humanity',
       img: '/assets/games/limitelimite.png',
       link: 'https://limitelimiteenligne.com/',
     },
+    // BUG: join link is broken ...
     {
       label: 'Minecraft classic',
       img: '/assets/games/minecraft.jpg',
