@@ -7,7 +7,7 @@ const Jitsi = styled.div`
   top: 0;
   right: 0;
   height: 100vh;
-  width: 100%;
+  width: 265px;
 `;
 
 const GameDiv = styled.div`
@@ -69,9 +69,9 @@ const Game = ({ room }: GameProps): React.ReactElement => {
   useEffect((): void => {
     if (!jitsiApi && jitsiRef) {
       console.log('DKD:init');
-      // const domain = '8x8.vc';
+      const domain = '8x8.vc';
       // const domain = 'meet.jit.si';
-      const domain = 'jitsi.toasty.ai';
+      // const domain = 'jitsi.toasty.ai';
       const options = {
         roomName: 'virtualgames.fun-' + room,
         width: '100%',
@@ -132,15 +132,15 @@ const Game = ({ room }: GameProps): React.ReactElement => {
       //     api.executeCommand('toggleTileView');
       //   }
       // });
-      api.addListener('subjectChange', newRoom => {
-        console.log('DKD:subjectChange', newRoom.subject);
-        if (newRoom && newRoom.subject && newRoom.subject.length > 0) {
+      api.addListener('incomingMessage', newMessage => {
+        console.log('DKD:incomingMessage', newMessage?.message);
+        if (newMessage && newMessage.message && newMessage.message.length > 0) {
           const isHost: any = document.getElementById('is-host');
           console.log('DKD:isHost', isHost.value);
           if (isHost.value === 'no') {
-            console.log('DKD:setNewIframeLink', newRoom.subject);
+            console.log('DKD:setNewIframeLink', newMessage.message);
             setNewIframeLink('');
-            const newLink = newRoom.subject;
+            const newLink = newMessage.message;
             setRoomLink(newLink);
             setTimeout(function () {
               setNewIframeLink(newLink);
@@ -160,11 +160,10 @@ const Game = ({ room }: GameProps): React.ReactElement => {
     navigator.clipboard
       .readText()
       .then(text => {
-        // alert('replace subject:' + text);
-        console.log('DKD:replace subject:', text);
+        console.log('DKD:sendChatMessage:', text);
         setIsHost('yes');
         setRoomLink(text);
-        if (jitsiApi) jitsiApi.executeCommand('subject', text);
+        if (jitsiApi) jitsiApi.executeCommand('sendChatMessage', text);
         setTimeout(function () {
           setIsHost('no');
         }, 5000);
@@ -181,6 +180,7 @@ const Game = ({ room }: GameProps): React.ReactElement => {
     }, 100);
   };
 
+  // https://masilotti.com/play-board-games-online/
   const GAMES = [
     {
       label: 'skribbl.io - drawing guessing',
@@ -201,7 +201,7 @@ const Game = ({ room }: GameProps): React.ReactElement => {
     {
       label: 'Limite Limite - French version of Cards Against Humanity',
       img: '/assets/games/limitelimite.png',
-      link: 'https://limitelimiteenligne.com/',
+      link: 'https://limite-limite.herokuapp.com/',
     },
     // BUG: join link is broken ...
     // {
